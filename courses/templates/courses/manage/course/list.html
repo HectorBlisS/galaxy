@@ -1,0 +1,30 @@
+{%extends 'base.html'%}
+
+{%block content%}
+
+<h1>Mis cursos</h1>
+
+<div class="module">
+	{%for course in object_list%}
+	<div class="course-info">
+		<h3>{{course.title}}</h3>
+		<p>
+			<a href="{%url 'course_edit' course.id%}">
+				Editar
+			</a>
+			<a href="{%url 'course_delete' course.id%}">
+				Eliminar
+			</a>
+		</p>
+	</div>
+	{%empty%}
+	<p>Aún no haz creado cursos</p>
+	{%endfor%}
+	<p>
+		<a href="{%url 'course_create'%}">
+			Crear un curso nuevo
+		</a>
+	</p>
+</div>
+
+{%endblock content%}

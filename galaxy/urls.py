@@ -11,7 +11,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     url(r'^courses/',
-    	include(coursesUrls, namespace="courses")),
+    	include(coursesUrls)),
 
     url(r'^',
     	include(mainUrls)),
