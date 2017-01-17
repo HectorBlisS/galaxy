@@ -1,9 +1,19 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
 
-from .forms import UserRegistrationForm
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+
+from .forms import UserRegistrationForm, ProfileForm
 
 from .models import Profile
+
+class Dashboard(View):
+	@method_decorator(login_required)
+	def get(self, request):
+		template_name = 'accounts/dashboard.html'
+		form = ProfileForm
+		return
 
 class Registration(View):
 	def get(self, request):

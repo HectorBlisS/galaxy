@@ -16,3 +16,8 @@ class UserRegistrationForm(forms.ModelForm):
 		if cd['password'] != cd['password2']:
 			raise forms.ValidationError('Las contraseñas no coinciden')
 		return cd['password2']
+
+class ProfileForm(forms.ModelForm):
+	class Meta():
+		model = Profile
+		fields = ('cover', 'avatar', 'birth', 'tel', 'bio')
