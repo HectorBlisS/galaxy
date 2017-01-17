@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	{%if form.errors%}
+          <p>Tu usuario y contraseña no coinciden, intenta de nuevo</p>
+  {%else%}
+          <p>Ingresa con tu nombre de usurio y contraseña</p>
+  {%endif%}
+ 
+  <div class="login-form">
+          <form action="{%url 'accounts:login'%}" method="post">
+                  {%csrf_token%}
+                  {{form.as_p}}
+                  <input type="hidden" name="next" value="{{next}}">
+                  <input type="submit" class="btn" value="Iniciar Sesion">
+          </form>
+          <p>O registrate <a href="{%url 'accounts:registration'%}">aquí</a></p>
+  </div>
+</body>
+</html>

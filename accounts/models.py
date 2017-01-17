@@ -8,3 +8,6 @@ class Profile(models.Model):
 	bio = models.TextField(blank=True, null=True)
 	cover = models.ImageField(upload_to='users/%Y/%m/%d', blank=True)
 	avatar = models.ImageField(upload_to='users/%Y/%m/%d', blank=True)
+
+	def __str__(self):
+		return 'Perfil de {}'.format(self.user.username)
