@@ -1,6 +1,8 @@
 from django.shortcuts import render
+from django.views.generic import View
 from django.views.generic.list import ListView
-from .models import Course
+from django.views.generic.detail import DetailView
+from .models import Course, Module, Content
 
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -49,3 +51,16 @@ class CourseDeleteView(PermissionRequiredMixin, OwnerCourseMixin, DeleteView):
 # 		qs = super(ManageCourseListView, self).get_queryset()
 # 		return qs.filter(owner=self.request.user)
 
+# List and Detail View
+class CourseListView(ListView):
+	model = Course
+	template_name = 'courses/list.html'
+
+class CourseDetailView(View):
+	def get(self, request, slug):
+		template_name = 'courses/detail.html'
+		course = Course.objects.get(slug = slug)
+		modules = Module.objects.filter(course = course)
+		print(modules)
+		context = {'course':course,'modules':modules}
+		return render(request,template_name,context)

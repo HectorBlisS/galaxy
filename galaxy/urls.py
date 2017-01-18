@@ -9,7 +9,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     url(r'^courses/',
-    	include(coursesUrls)),
+    	include(coursesUrls, namespace="courses")),
 
     url(r'^',
     	include(mainUrls)),

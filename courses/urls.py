@@ -3,6 +3,7 @@ from . import views
 
 
 urlpatterns = [
+	
 	url(r'^mine/$',
 		views.ManageCourseListView.as_view(),
 		name="manage_course_list"),
@@ -18,4 +19,12 @@ urlpatterns = [
 	url(r'^(?P<pk>\d+)/delete/$',
 		views.CourseDeleteView.as_view(),
 		name="course_delete"),
+
+	url(r'^$',
+		views.CourseListView.as_view(),
+		name="course_list"),
+	
+	url(r'^(?P<slug>[\w-]+)$',
+		views.CourseDetailView.as_view(),
+		name="course_detail"),
 ]
