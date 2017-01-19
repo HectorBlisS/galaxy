@@ -10,7 +10,6 @@ from django.forms.models import modelform_factory
 from django.apps import apps
 from .models import Module, Content
 
->>>>>>> dfff949d32e1b0aaa9812141befba31a144a2ee6
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from .models import Course, Module, Content
