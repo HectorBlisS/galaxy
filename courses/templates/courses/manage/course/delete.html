@@ -1,1 +1,27 @@
-delete.html
+{%extends 'base.html'%}
+
+{%block content%}
+
+<h1>Borrar curso "{{object.title}}"</h1>
+
+<div class="module">
+
+	<form action="." method="post">
+
+		{%csrf_token%}
+
+		<p>Seguro que quieres borrar el curso "{{object}}" ?</p>
+
+		<input type="submit" class="" value="Borrar">
+
+	</form>
+
+		<a href="{%url 'manage_course_list'%}">
+			<button>
+				Cancelar
+			</button>
+		</a>
+
+</div>
+
+{%endblock content%}
