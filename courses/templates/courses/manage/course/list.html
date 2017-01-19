@@ -9,13 +9,13 @@
 	<div class="course-info">
 		<h3>{{course.title}}</h3>
 		<p>
-			<a href="{%url 'course_edit' course.id%}">
+			<a href="{%url 'courses:course_edit' course.id%}">
 				Editar
 			</a>
-			<a href="{%url 'course_delete' course.id%}">
+			<a href="{%url 'courses:course_delete' course.id%}">
 				Eliminar
 			</a>
-			<a href="{%url 'course_module_update' course.id%}">
+			<a href="{%url 'courses:course_module_update' course.id%}">
 				Editar Modulos
 			</a>
 		</p>
@@ -24,7 +24,7 @@
 	<p>Aún no haz creado cursos</p>
 	{%endfor%}
 	<p>
-		<a href="{%url 'course_create'%}">
+		<a href="{%url 'courses:course_create'%}">
 			Crear un curso nuevo
 		</a>
 	</p>
