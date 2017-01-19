@@ -1,0 +1,25 @@
+{%extends 'base.html'%}
+
+{%block content%}
+
+	{%if object%}
+	<h1>Editar contenido {{object.title}}</h1>
+	{%else%}
+	<h1>Agrega nuevo contenido</h1>
+	{%endif%}
+
+	<div class="module">
+		<form action="" method="post" enctype="multipart/form-data">
+			{%csrf_token%}
+			{{form.as_p}}
+			<input type="submit" value="Guardar Contenido">
+
+		</form>
+	</div>
+
+
+<script type="text/javascript">
+	document.getElementById('id_title').style.background='red';
+</script>
+
+{%endblock content%}
