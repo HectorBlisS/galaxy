@@ -6,5 +6,10 @@
 </head>
 <body>
 	Perfil de <b>{{request.user.first_name}}</b>
+
+	<form action="">
+		{% csrf_token %}
+		{{form.as_p}}
+	</form>
 </body>
 </html>

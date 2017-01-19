@@ -12,8 +12,11 @@ class Dashboard(View):
 	@method_decorator(login_required)
 	def get(self, request):
 		template_name = 'accounts/dashboard.html'
-		form = ProfileForm
-		return
+		form = ProfileForm()
+		context = {
+			'form':form
+		}
+		return render(request, template_name, context)
 
 class Registration(View):
 	def get(self, request):
