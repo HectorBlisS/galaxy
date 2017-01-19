@@ -19,7 +19,7 @@ urlpatterns = [
     	include(mainUrls)),
 
     url(r'^accounts/', 
-        include(accountsUrls, namespace="accounts")),
+        include(accountsUrls)),
 
     url(
         regex=r'^media/(?P<path>.*)$',
