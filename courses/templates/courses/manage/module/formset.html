@@ -1,0 +1,22 @@
+{%extends 'base.html'%}
+
+{%block content%}
+
+	<h1>Editar "{{course.title}}"</h1>
+
+	<div class="module">
+
+		<h2>Modulos del curso</h2>
+		<form action="" method="post">
+			{%csrf_token%}
+
+			{{formset.as_p}}
+			{{formset.management_form}}
+
+			<input type="submit" value="Guardar modulos">
+
+		</form>
+
+	</div>
+
+{%endblock content%}
