@@ -19,7 +19,7 @@
 				Editar Modulos
 			</a>
 			{%if course.modules.count > 0%}
-			<a href="{%url 'module_content_list' course.modules.first.id%}">
+			<a href="{%url 'courses:module_content_list' course.modules.first.id%}">
 				Administrar contenidos
 			</a>
 			{%endif%}

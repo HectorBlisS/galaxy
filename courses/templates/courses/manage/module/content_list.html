@@ -9,7 +9,7 @@
 		<ul id="modules">
 			{%for m in course.modules.all%}
 			<li data-id="{{m.id}}" {%if m == module%} class="selected" {%endif%} >
-				<a href="{%url 'module_content_list' m.id%}">
+				<a href="{%url 'courses:module_content_list' m.id%}">
 					<span>
 						Modulo <span class="order">{{m.order|add:1}}</span>
 					</span>
@@ -22,7 +22,7 @@
 			{%endfor%}
 		</ul>
 
-		<p><a href="{%url 'course_module_update' course.id%}">
+		<p><a href="{%url 'courses:course_module_update' course.id%}">
 			Editar modulos
 		</a></p>
 	</div>
@@ -36,8 +36,8 @@
 			<div data-id="{{content.id}}">
 				{%with item=content.item%}
 				<p>{{item}} ({{item|model_name}})</p>
-				<a href="{%url 'module_content_update' module.id item|model_name item.id%}">Editar</a>
-				<form action="{%url 'module_content_delete' content.id%}" method="post">
+				<a href="{%url 'courses:module_content_update' module.id item|model_name item.id%}">Editar</a>
+				<form action="{%url 'courses:module_content_delete' content.id%}" method="post">
 					<input type="submit" value="Borrar">
 					{%csrf_token%}
 
@@ -54,22 +54,22 @@
 	<h3>Agregar nuevo contenido:</h3>
 	<ul class="content-types">
 		<li>
-			<a href="{%url 'module_content_create' module.id 'image'%}">
+			<a href="{%url 'courses:module_content_create' module.id 'image'%}">
 				Imagen
 			</a>
 		</li>
 		<li>
-			<a href="{%url 'module_content_create' module.id 'video'%}">
+			<a href="{%url 'courses:module_content_create' module.id 'video'%}">
 				Video
 			</a>
 		</li>
 		<li>
-			<a href="{%url 'module_content_create' module.id 'file'%}">
+			<a href="{%url 'courses:module_content_create' module.id 'file'%}">
 				Archivo
 			</a>
 		</li>
 		<li>
-			<a href="{%url 'module_content_create' module.id 'text'%}">
+			<a href="{%url 'courses:module_content_create' module.id 'text'%}">
 				Texto
 			</a>
 		</li>
