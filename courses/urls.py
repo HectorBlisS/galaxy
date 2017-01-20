@@ -32,4 +32,15 @@ urlpatterns = [
 	url(r'^module/(?P<module_id>\d+)/content/(?P<model_name>\w+)/(?P<id>\d+)/$',
 		views.ContentCreateUpdateView.as_view(),
 		name="module_content_update"),
+
+	# delete content
+	url(r'^content/(?P<id>\d+)/delete/$',
+		views.ContentDeleteView.as_view(),
+		name="module_content_delete"),
+
+	# crm content
+	url(r'^module/(?P<module_id>\d+)/$',
+		views.ModuleContentListView.as_view(),
+		name="module_content_list"),
+
 ]
