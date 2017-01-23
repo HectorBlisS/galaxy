@@ -1,3 +1,4 @@
+from django.views.generic import View
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.views.generic.base import TemplateResponseMixin, View
 from .forms import ModuleFormset
@@ -8,7 +9,8 @@ from django.apps import apps
 from .models import Module, Content
 
 from django.views.generic.list import ListView
-from .models import Course
+from django.views.generic.detail import DetailView
+from .models import Course, Module, Content
 
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -130,6 +132,32 @@ class ContentCreateUpdateView(TemplateResponseMixin, View):
 				return redirect('module_content_list', self.module.id)
 			return self.render_to_response({'form':form, 'object':self.obj})
 
+# content delete
+
+class ContentDeleteView(View):
+	def post(self, request, id):
+		content = get_object_or_404(Content, id=id,
+			module__course__owner=request.user)
+		module = content.module
+		content.item.delete()
+		content.delete()
+		return redirect('module_content_list', module.id)
+
+
+# CMR para content
+
+class ModuleContentListView(TemplateResponseMixin, View):
+	template_name = 'courses/manage/module/content_list.html'
+
+	def get(self, request, module_id):
+		module = get_object_or_404(Module, id=module_id, course__owner=request.user)
+		return self.render_to_response({'module':module})
+		
+
+
+
+
+
 # class ManageCourseListView(ListView):
 # 	model = Course
 # 	template_name = 'courses/manage/course/list.html'
@@ -138,3 +166,16 @@ class ContentCreateUpdateView(TemplateResponseMixin, View):
 # 		qs = super(ManageCourseListView, self).get_queryset()
 # 		return qs.filter(owner=self.request.user)
 
+# List and Detail View
+class CourseListView(ListView):
+	model = Course
+	template_name = 'courses/list.html'
+
+class CourseDetailView(View):
+	def get(self, request, slug):
+		template_name = 'courses/detail.html'
+		course = Course.objects.get(slug = slug)
+		modules = Module.objects.filter(course = course)
+		print(modules)
+		context = {'course':course,'modules':modules}
+		return render(request,template_name,context)

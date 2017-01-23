@@ -120,9 +120,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/static/'
-MEDIA_URL = os.path.join(BASE_DIR, '/media/')
-MEDIA_ROOT = 'media'
+
+
 
 # E-MAIL
 
@@ -132,3 +131,9 @@ EMAIL_PORT = '25'
 EMAIL_HOST_USER = 'nokoayzack@gmail.com'
 EMAIL_HOST_PASSWORD = 'Mancha22'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+STATIC_URL = '/static/'
+STATIC_ROOT = 'staticfiles'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+MEDIA_ROOT = 'media'
+

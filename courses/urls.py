@@ -3,6 +3,7 @@ from . import views
 
 
 urlpatterns = [
+	
 	url(r'^mine/$',
 		views.ManageCourseListView.as_view(),
 		name="manage_course_list"),
@@ -19,6 +20,14 @@ urlpatterns = [
 		views.CourseDeleteView.as_view(),
 		name="course_delete"),
 
+	url(r'^$',
+		views.CourseListView.as_view(),
+		name="course_list"),
+	
+	url(r'^(?P<slug>[\w-]+)$',
+		views.CourseDetailView.as_view(),
+		name="course_detail"),
+
 	# Para el formset
 	url(r'^(?P<pk>\d+)/module/$',
 		views.CourseModuleUpdateView.as_view(),
@@ -32,4 +41,15 @@ urlpatterns = [
 	url(r'^module/(?P<module_id>\d+)/content/(?P<model_name>\w+)/(?P<id>\d+)/$',
 		views.ContentCreateUpdateView.as_view(),
 		name="module_content_update"),
+
+	# delete content
+	url(r'^content/(?P<id>\d+)/delete/$',
+		views.ContentDeleteView.as_view(),
+		name="module_content_delete"),
+
+	# crm content
+	url(r'^module/(?P<module_id>\d+)/$',
+		views.ModuleContentListView.as_view(),
+		name="module_content_list"),
+
 ]
