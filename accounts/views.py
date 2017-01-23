@@ -42,7 +42,7 @@ class Registration(View):
 			profile.user = new_user
 			profile.save()
 
-			return redirect('accounts:profile')
+			return redirect('profile')
 
 		else:
 			template_name = 'registration/registration.html'
