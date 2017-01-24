@@ -15,7 +15,7 @@ from .models import Course, Module, Content
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from braces.views import LoginRequiredMixin, PermissionRequiredMixin
+from braces.views import LoginRequiredMixin, PermissionRequiredMixin, CsrfExemptMixin, JsonRequestResponseMixin
 
 
 class OwnerMixin(object):
@@ -74,7 +74,7 @@ class CourseModuleUpdateView(TemplateResponseMixin, View):
 		formset = self.get_formset(data=request.POST)
 		if formset.is_valid():
 			formset.save()
-			return redirect('manage_course_list')
+			return redirect('courses:manage_course_list')
 		return self.render_to_response({'course':self.course,
 			'formset':formset})
 
@@ -129,8 +129,9 @@ class ContentCreateUpdateView(TemplateResponseMixin, View):
 			if not id:
 				# nuveo contenido
 				Content.objects.create(module=self.module, item=obj)
-				return redirect('module_content_list', self.module.id)
-			return self.render_to_response({'form':form, 'object':self.obj})
+				return redirect('courses:module_content_list', self.module.id)
+			return redirect('courses:module_content_list', self.module.id)
+		return self.render_to_response({'form':form, 'object':self.obj})
 
 # content delete
 
@@ -141,7 +142,7 @@ class ContentDeleteView(View):
 		module = content.module
 		content.item.delete()
 		content.delete()
-		return redirect('module_content_list', module.id)
+		return redirect('courses:module_content_list', module.id)
 
 
 # CMR para content
@@ -179,3 +180,19 @@ class CourseDetailView(View):
 		print(modules)
 		context = {'course':course,'modules':modules}
 		return render(request,template_name,context)
+
+
+# Reordenar modulos y contenidos en el CRM (AJAX)
+class ModuleOrderView(CsrfExemptMixin, JsonRequestResponseMixin, View):
+	def post(self, request):
+		for id, order in self.request_json.items():
+			Module.objects.filter(id=id, course__owner=request.user).update(order=order)
+		return self.render_json_response({'saved':'OK'})
+
+class ContentOrderView(CsrfExemptMixin, JsonRequestResponseMixin, View):
+	def post(self, request):
+		for id, order in self.request_json.items():
+			Content.objects.filter(id=id, module__course__owner=request.user).update(order=order)
+			return self.render_json_response({'saved':'OK'})
+
+
