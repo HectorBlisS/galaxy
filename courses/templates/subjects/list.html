@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+	<h2>Para iniciar, selecciona un lenguaje de tu interés!</h2>	
+	<div class="container">
+		<div class="columns is-multiline">
+			{% for subject in object_list %}
+				<div class="column is-one-quarter">
+				<a href="{%url 'subject_detail' subject.slug%}">
+					<div class="card">
+						<div class="card-image">
+							<figure class="image is-square">
+								{% if subject.image %}
+									<img src="{{subject.image.url}}" alt="Text">
+								{% endif %}		
+							</figure>
+						</div>
+						<div class="card-content">
+							<div class="content">
+								<h3>{{subject.title}}</h3>
+							</div>
+						</div>
+					</div>
+				</a>
+				</div>
+			{% endfor %}
+		</div>
+		<br><br><br>
+		<div class="columns is-multiline">
+			{% for subject in object_list %}
+				<div class="column is-half">
+					<div class="box">
+						<article class="media">
+							<div class="media-left">
+								<figure class="image is-64x64">
+									<img src="{{subject.image.url}}" alt="">
+								</figure>
+							</div>
+							<div class="media-content">
+								<div class="content">
+									<h3 class="title">{{subject.title}}</h3>
+									<p>{{}} cursos</p>
+								</div>
+							</div>
+						</article>
+					</div>
+				</div>
+			{%endfor%}
+		</div>
+	</div>
+
+{% endblock content %}

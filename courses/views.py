@@ -6,7 +6,7 @@ from .forms import ModuleFormset
 # content to modules with generic view
 from django.forms.models import modelform_factory
 from django.apps import apps
-from .models import Module, Content
+from .models import Module, Content, Subject
 
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -196,3 +196,20 @@ class ContentOrderView(CsrfExemptMixin, JsonRequestResponseMixin, View):
 			return self.render_json_response({'saved':'OK'})
 
 
+#List of Subjects
+class Subjects(ListView):
+	model = Subject
+	template_name = 'subjects/list.html'
+
+#Detail of Subject
+class SubjectDetail(View):
+	def get(self,request, slug):
+		template_name = 'subjects/detail.html'
+		subject = Subject.objects.get(slug = slug)
+		courses = Course.objects.filter(subject = subject)
+		context = {
+		'subject': subject,
+		'courses': courses,
+		}
+
+		return render(request, template_name, context)

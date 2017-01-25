@@ -9,7 +9,7 @@ from .fields import OrderField
 class Subject(models.Model):
 	title = models.CharField(max_length=140)
 	slug = models.SlugField(max_length=200, unique=True)
-
+	image = models.ImageField(upload_to="images/subjects", blank=True, null=True)
 	class Meta:
 		ordering = ('title',)
 
