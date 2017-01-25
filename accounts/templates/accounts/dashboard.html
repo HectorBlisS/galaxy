@@ -1,15 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Dashboard</title>
-</head>
-<body>
+{%extends 'base.html'%}
+{%block content%}
 	Perfil de <b>{{request.user.first_name}}</b>
 
 	<form action="">
 		{% csrf_token %}
-		{{form.as_p}}
+		{{form_profile.as_p}}
+		<input type="submit" class="button">
 	</form>
-</body>
-</html>
+{%endblock content%}
+
+{%block domready%}
+	$('label').addClass('label')
+	$('input').addClass('input')
+	$('.button').removeClass('input')
+	$('textarea').addClass('textarea')
+{%endblock domready%}

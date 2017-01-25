@@ -12,9 +12,11 @@ class Dashboard(View):
 	@method_decorator(login_required)
 	def get(self, request):
 		template_name = 'accounts/dashboard.html'
-		form = ProfileForm()
+		form_profile = ProfileForm()
+		#form_user = 
 		context = {
-			'form':form
+			'form_profile':form_profile,
+			#'form_user':form_user
 		}
 		return render(request, template_name, context)
 
@@ -42,7 +44,7 @@ class Registration(View):
 			profile.user = new_user
 			profile.save()
 
-			return redirect('profile')
+			return redirect('dashboard')
 
 		else:
 			template_name = 'registration/registration.html'
