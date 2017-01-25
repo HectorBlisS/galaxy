@@ -15,8 +15,11 @@ from .models import Course, Module, Content
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from braces.views import LoginRequiredMixin, PermissionRequiredMixin
+from braces.views import LoginRequiredMixin, PermissionRequiredMixin, CsrfExemptMixin, JsonRequestResponseMixin
 
+# Para lista y detalle 
+from django.db.models import Count
+from .models import Subject
 
 class OwnerMixin(object):
 	def get_queryset(self):
@@ -74,7 +77,7 @@ class CourseModuleUpdateView(TemplateResponseMixin, View):
 		formset = self.get_formset(data=request.POST)
 		if formset.is_valid():
 			formset.save()
-			return redirect('manage_course_list')
+			return redirect('courses:manage_course_list')
 		return self.render_to_response({'course':self.course,
 			'formset':formset})
 
@@ -129,8 +132,9 @@ class ContentCreateUpdateView(TemplateResponseMixin, View):
 			if not id:
 				# nuveo contenido
 				Content.objects.create(module=self.module, item=obj)
-				return redirect('module_content_list', self.module.id)
-			return self.render_to_response({'form':form, 'object':self.obj})
+				return redirect('courses:module_content_list', self.module.id)
+			return redirect('courses:module_content_list', self.module.id)
+		return self.render_to_response({'form':form, 'object':self.obj})
 
 # content delete
 
@@ -141,7 +145,7 @@ class ContentDeleteView(View):
 		module = content.module
 		content.item.delete()
 		content.delete()
-		return redirect('module_content_list', module.id)
+		return redirect('courses:module_content_list', module.id)
 
 
 # CMR para content
@@ -167,15 +171,38 @@ class ModuleContentListView(TemplateResponseMixin, View):
 # 		return qs.filter(owner=self.request.user)
 
 # List and Detail View
-class CourseListView(ListView):
+class CourseListView(TemplateResponseMixin, View):
 	model = Course
-	template_name = 'courses/list.html'
+	template_name = 'courses/course/list.html'
 
-class CourseDetailView(View):
-	def get(self, request, slug):
-		template_name = 'courses/detail.html'
-		course = Course.objects.get(slug = slug)
-		modules = Module.objects.filter(course = course)
-		print(modules)
-		context = {'course':course,'modules':modules}
-		return render(request,template_name,context)
+	def get(self, request, subject=None):
+		subjects = Subject.objects.annotate(
+			total_courses=Count('courses'))
+		courses = Course.objects.annotate(
+			total_modules=Count('modules'))
+		if subject:
+			subject = get_object_or_404(Subject, slug=subject)
+			courses = courses.filter(subject=subject)
+		return self.render_to_response({'subjects':subjects,
+			'subject':subject,
+			'courses':courses})
+
+class CourseDetailView(DetailView):
+	model = Course
+	template_name = 'courses/course/detail.html'
+
+
+# Reordenar modulos y contenidos en el CRM (AJAX)
+class ModuleOrderView(CsrfExemptMixin, JsonRequestResponseMixin, View):
+	def post(self, request):
+		for id, order in self.request_json.items():
+			Module.objects.filter(id=id, course__owner=request.user).update(order=order)
+		return self.render_json_response({'saved':'OK'})
+
+class ContentOrderView(CsrfExemptMixin, JsonRequestResponseMixin, View):
+	def post(self, request):
+		for id, order in self.request_json.items():
+			Content.objects.filter(id=id, module__course__owner=request.user).update(order=order)
+			return self.render_json_response({'saved':'OK'})
+
+

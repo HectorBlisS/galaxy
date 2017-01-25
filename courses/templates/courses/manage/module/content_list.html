@@ -1,81 +1,151 @@
-{%extends 'base.html'%}
+{%extends 'base2.html'%}
 {%load course%}
 {%block content%}
-	{%with course=module.course%}
-	<h1>Curso "{{course.title}}"</h1>
+<section class="container columns">
 
-	<div class="contents">
-		<h3>Modulos</h3>
-		<ul id="modules">
-			{%for m in course.modules.all%}
-			<li data-id="{{m.id}}" {%if m == module%} class="selected" {%endif%} >
-				<a href="{%url 'courses:module_content_list' m.id%}">
-					<span>
-						Modulo <span class="order">{{m.order|add:1}}</span>
-					</span>
-					<br>
-					{{m.title}}
-				</a>
-			</li>
-			{%empty%}
-			<li>Aún no hay modulos</li>
-			{%endfor%}
-		</ul>
+  <div style="padding:0" class="is-info is-fullheight column is-2 notification has-text-centered">
 
-		<p><a href="{%url 'courses:course_module_update' course.id%}">
+  	{%with course=module.course%}
+	  	<a style="margin-top:20px" class="button is-warning" href="{%url 'courses:course_module_update' course.id%}">
 			Editar modulos
-		</a></p>
-	</div>
+		</a>
+	<ul class="" id="modules">
+	  {%for m in course.modules.all%}
+	   <li style="margin:10px 0 10px 0" {%if m == module%} class="selected mi-card is-active" {%else%} class="mi-card" {%endif%} data-id="{{m.id}}">
+	   	<a href="{%url 'courses:module_content_list' m.id%}">
+	    <span class="panel-icon">
+	      <i class="fa fa-book"></i>
+	    </span>
+	    <strong>Modulo<span class="order">{{m.order|add:1}}</span></strong>
+	    <br> 
+	    <span class="titulo"> {{m.title}} </span>
+	    </a>
+	  </li>
+	  {%empty%}
+	  <p class="panel-block is-active">
+	  	Aún no hay modulos
+	  </p>
+	  {%endfor%}
+	</ul>
+
+
+  </div>
+  <div style="height:100vh;overflow:scroll" class="container column is-10 notification is-light">
+  	<h1 class="title">Curso: "{{course.title}}"</h1>
 
 	<div class="module">
 		<h2>Modulo {{module.order|add:1}}: {{module.title}}</h2>
 		<h3>Module contents:</h3>
 
-		<div id="module-contents">
+		<ul id="module-contents">
 			{%for content in module.contents.all%}
-			<div data-id="{{content.id}}">
+			<li style="margin:10px 0 10px 0" class="card" data-id="{{content.id}}">
+				<div class="card-content mi-card">
 				{%with item=content.item%}
-				<p>{{item}} ({{item|model_name}})</p>
-				<a href="{%url 'courses:module_content_update' module.id item|model_name item.id%}">Editar</a>
-				<form action="{%url 'courses:module_content_delete' content.id%}" method="post">
-					<input type="submit" value="Borrar">
-					{%csrf_token%}
+					
+					<p>{{item}} ({{item|model_name}})</p>
+					<div class="derecha">
+					<a class="" href="{%url 'courses:module_content_update' module.id item|model_name item.id%}">Editar</a>
+					<form class="" action="{%url 'courses:module_content_delete' content.id%}" method="post">
+						<input type="submit" value="Borrar">
+						{%csrf_token%}
 
-				</form>
-				{% endwith %}
-			</div>
+					</form>
+					</div>
+				{%endwith%}
+				
+				</div>
+			</li>
 		{%empty%}
-		<p>
+		<li>
 			Este modulo aún no tiene contenido
-		</p>
+		</li>
 		{%endfor%}
-	</div>
-	<hr>
-	<h3>Agregar nuevo contenido:</h3>
-	<ul class="content-types">
-		<li>
-			<a href="{%url 'courses:module_content_create' module.id 'image'%}">
-				Imagen
-			</a>
-		</li>
-		<li>
-			<a href="{%url 'courses:module_content_create' module.id 'video'%}">
-				Video
-			</a>
-		</li>
-		<li>
-			<a href="{%url 'courses:module_content_create' module.id 'file'%}">
-				Archivo
-			</a>
-		</li>
-		<li>
-			<a href="{%url 'courses:module_content_create' module.id 'text'%}">
-				Texto
-			</a>
-		</li>
 	</ul>
+	<hr>
+	<div class="card">
+		<h3 class="title card-header">Agregar nuevo contenido:</h3>
+		<ul class="card-footer">
+			<li>
+				<a class="card-footer-item" href="{%url 'courses:module_content_create' module.id 'image'%}">
+					Imagen
+				</a>
+			</li>
+			<li>
+				<a class="card-footer-item" href="{%url 'courses:module_content_create' module.id 'video'%}">
+					Video
+				</a>
+			</li>
+			<li>
+				<a class="card-footer-item" href="{%url 'courses:module_content_create' module.id 'file'%}">
+					Archivo
+				</a>
+			</li>
+			<li>
+				<a class="card-footer-item" href="{%url 'courses:module_content_create' module.id 'text'%}">
+					Texto
+				</a>
+			</li>
+		</ul>
+	</div>
 </div>
+
+
+</div> <!-- right column-->
+
 	{%endwith%}
 
-
+</section>
 {%endblock content%}
+
+{%block domready%}
+
+$('#modules').sortable({
+	stop: function(event, ui){
+	modules_order = {};
+	$('#modules').children().each(function(){
+	//update the order field
+
+	$(this).find('.order').text($(this).index() +1);
+	// associate the module's id with its order
+	modules_order[$(this).data('id')] = $(this).index();
+	console.log($(this).data('id'));
+	console.log($(this).index());
+});
+	$.ajax({
+	type: 'POST',
+	url: '{%url "courses:module_order"%}',
+	contentType: 'application/json; charset=utf-8',
+	dataType: 'json',
+	data: JSON.stringify(modules_order),
+	success:function(r){
+		console.log(r);
+	}
+});
+}
+});
+
+$('#module-contents').sortable({
+	stop: function(event, ui){
+	contents_order = {};
+	$('#module-contents').children().each(function(){
+	// associate the module's id with its order
+	contents_order[$(this).data('id')] = $(this).index();
+});
+
+$.ajax({
+	type: 'POST',
+	url: '{% url "courses:content_order" %}',
+	contentType: 'application/json; charset=utf-8',
+	dataType: 'json',
+	data: JSON.stringify(contents_order), 
+	success:function(r){
+		console.log(r);
+	}
+});
+}
+});
+
+
+
+{%endblock domready%}
