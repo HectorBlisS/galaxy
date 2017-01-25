@@ -1,10 +1,22 @@
 {%extends 'base.html' %}
+{%with course=object%}
 
 {% block content %}
 	<h1>Título {{course.title}}</h1>
 	<h3>Categoria: {{course.subject.title}}</h3>
 	<h3>Propietario: {{course.owner}}</h3>
 	<p>Descripción del curso: {{course.overview}}</p>
+	{%if request.user.is_authenticated%}
+	<form action="{%url 'students:student_enroll_course'%}" method="post">
+		{%csrf_token%}
+		{{enroll_form}}
+		<input type="submit" class="button is-success" value="Tomar el curso">
+	</form>
+	{%else%}
+	<a href="{%url 'students:student_registration'%}" class="button is-warning">
+		Registrate para tomar el curso
+	</a>
+	{%endif%}
 	
 	<h2>Módulos que conforman el curso: </h2>
 	{%for module in modules%}
@@ -15,4 +27,8 @@
 		<br>
 	{%endfor%}
 	<a href="{%url 'courses:course_list' %}">Regresar a los cursos</a>
+
+
 {% endblock content %}
+
+{%endwith%}
