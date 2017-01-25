@@ -17,6 +17,9 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin, CsrfExemptMixin, JsonRequestResponseMixin
 
+# Para lista y detalle 
+from django.db.models import Count
+from .models import Subject
 
 class OwnerMixin(object):
 	def get_queryset(self):
@@ -168,18 +171,25 @@ class ModuleContentListView(TemplateResponseMixin, View):
 # 		return qs.filter(owner=self.request.user)
 
 # List and Detail View
-class CourseListView(ListView):
+class CourseListView(TemplateResponseMixin, View):
 	model = Course
-	template_name = 'courses/list.html'
+	template_name = 'courses/course/list.html'
 
-class CourseDetailView(View):
-	def get(self, request, slug):
-		template_name = 'courses/detail.html'
-		course = Course.objects.get(slug = slug)
-		modules = Module.objects.filter(course = course)
-		print(modules)
-		context = {'course':course,'modules':modules}
-		return render(request,template_name,context)
+	def get(self, request, subject=None):
+		subjects = Subject.objects.annotate(
+			total_courses=Count('courses'))
+		courses = Course.objects.annotate(
+			total_modules=Count('modules'))
+		if subject:
+			subject = get_object_or_404(Subject, slug=subject)
+			courses = courses.filter(subject=subject)
+		return self.render_to_response({'subjects':subjects,
+			'subject':subject,
+			'courses':courses})
+
+class CourseDetailView(DetailView):
+	model = Course
+	template_name = 'courses/course/detail.html'
 
 
 # Reordenar modulos y contenidos en el CRM (AJAX)
