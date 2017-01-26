@@ -17,6 +17,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from braces.views import LoginRequiredMixin, PermissionRequiredMixin, CsrfExemptMixin, JsonRequestResponseMixin
 
+from django.db.models import Count
 
 class OwnerMixin(object):
 	def get_queryset(self):
@@ -197,13 +198,17 @@ class ContentOrderView(CsrfExemptMixin, JsonRequestResponseMixin, View):
 
 
 #List of Subjects
-class Subjects(ListView):
-	model = Subject
-	template_name = 'subjects/list.html'
+class Subjects(View):
+
+	def get(self,request):
+		template_name = 'subjects/list.html'
+		subjects = Subject.objects.annotate(no_courses=Count('courses'))
+		context = {'subjects':subjects}
+		return render(request, template_name, context)
 
 #Detail of Subject
 class SubjectDetail(View):
-	def get(self,request, slug):
+	def get(self,request, slug, course_slug=None):
 		template_name = 'subjects/detail.html'
 		subject = Subject.objects.get(slug = slug)
 		courses = Course.objects.filter(subject = subject)

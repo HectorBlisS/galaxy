@@ -60,9 +60,12 @@ urlpatterns = [
 		name="course_detail"),
 
 	url(r'^$',
-		views.CourseListView.as_view(),
-		name="course_list"),
+		views.Subjects.as_view(),
+		name="subject_list"),
 
 	#
+#subjects
+	url(r'^subjects/(?P<slug>[\w-]+)$', views.SubjectDetail.as_view(), name="subject_detail"),
+    url(r'^subjects/(?P<slug>[\w-]+)/(?P<course_slug>[\w-]+)$', views.SubjectDetail.as_view(), name="subject_detail_with_course"),
 
 ]

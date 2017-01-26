@@ -1,0 +1,56 @@
+{% extends "base2.html" %}
+
+{% block content %}
+	<style>
+		.top{
+			padding-top: 10%;
+		}
+		.top-mitad{
+			padding-top: 5%
+		}
+
+		.top-all{
+			margin-left: 5%;
+			margin-right: 2%;
+		}
+	</style>
+	<section class="container columns">
+		<div class="column is-one-quarter is-fullheight is-fullwidth notification is-info has-text-centered" style="overflow-y: scroll; height:100%;">
+			<h2 class="title top">{{subject.title}} ({{courses|length}})</h2>
+			<h5 class="subtitle top">Selecciona un curso!</h5>
+			<hr>
+			<div class="container" style="text-align:justify">
+			{% for course in courses %}
+				<a href="{%url 'courses:subject_detail_with_course' subject.slug course.slug%}">
+					<div class="card is-fullwidth top-all" style="background-color: #3273DC;">
+						<!--<header class="card-header">
+							<p class="title is-4">{{course.title}}</p>
+						</header>-->
+						<div class="card-content">
+							<div class="content" style="color: white">
+								<p class="title is-4"><strong>{{course.title}}</strong></p>
+								<p class="subtitle is-6 top-mitad">{{course.overview}}</p>
+							</div>
+						</div>
+						<!--<footer class="card-footer">
+							<p>Instructor: <a href="">{{course.owner}}</a></p>
+						</footer>-->
+					</div>
+				</a>
+					<br>
+			{% endfor %}
+			</div>
+
+		</div>
+		<div class="column is-three-quarters" style="overflow-y: none;">
+			<nav class="nav has-shadow">
+				<div class="nav-left">
+					<div class="nav-item">
+						<img class="image" src="{{subject.image.url}}" alt="">
+					</div>
+				</div>
+			</nav>
+		</div>
+	</section>
+	
+{% endblock content %}
