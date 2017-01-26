@@ -18,6 +18,8 @@ class UserRegistrationForm(forms.ModelForm):
 		return cd['password2']
 
 class ProfileForm(forms.ModelForm):
+	cover = forms.ImageField(label='Foto de portada', widget=forms.FileInput(attrs={'class':'imageprofile', 'required':'false'}))
+	avatar = forms.ImageField(label='Foto de perfil', widget=forms.FileInput(attrs={'class':'imageprofile', 'required':'false'}))
 	class Meta():
 		model = Profile
 		fields = ('cover', 'avatar', 'birth', 'tel', 'bio')
