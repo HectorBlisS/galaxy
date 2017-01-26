@@ -1,0 +1,19 @@
+{%extends 'base.html'%}
+
+{%block content%}
+	
+	<h1>Registro</h1>
+	<div class="module">
+		<p>
+			Rellena los campos para crear una cuenta:
+		</p>
+		<form action="" method="post">
+			{%csrf_token%}
+			{{form.as_p}}
+			<p>
+				<input type="submit" value="Crear mi cuenta">
+			</p>
+		</form>
+	</div>
+
+{%endblock content%}

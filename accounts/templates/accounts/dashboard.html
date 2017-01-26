@@ -1,12 +1,24 @@
 {%extends 'base.html'%}
 {%block content%}
-	Perfil de <b>{{request.user.first_name}}</b>
 
-	<form action="">
-		{% csrf_token %}
-		{{form_profile.as_p}}
-		<input type="submit" class="button">
-	</form>
+	<section class="hero is-info is-medium">
+		<div class="hero-body">
+			<div class="container">
+				<h1 class="title">
+					Perfil de <b>{{request.user.first_name}} {{request.user.last_name}}</b>
+				</h1>
+			</div>
+		</div>
+	</section>
+	
+	
+	<div class="columns">
+		<form action="" class="column is-5 is-offset-1">
+			{% csrf_token %}
+			{{form_profile.as_p}}
+			<input type="submit" class="button">
+		</form>
+	</div>
 {%endblock content%}
 
 {%block domready%}

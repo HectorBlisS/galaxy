@@ -12,7 +12,7 @@ class Dashboard(View):
 	@method_decorator(login_required)
 	def get(self, request):
 		template_name = 'accounts/dashboard.html'
-		form_profile = ProfileForm()
+		form_profile = ProfileForm(instance=request.user.profile)
 		#form_user = 
 		context = {
 			'form_profile':form_profile,
