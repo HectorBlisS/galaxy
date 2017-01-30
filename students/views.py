@@ -38,7 +38,7 @@ class StudentEnrollCourseView(LoginRequiredMixin, FormView):
 		return super(StudentEnrollCourseView, self).form_valid(form)
 
 	def get_success_url(self):
-		return reverse_lazy('student_course_detail', args=[self.course.id])
+		return reverse_lazy('students:student_course_detail', args=[self.course.id])
 
 # Mostramos al usuario los cursos que ha comprado
 
