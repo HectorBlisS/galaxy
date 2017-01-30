@@ -4,11 +4,11 @@ from .models import Profile
 
 class UserRegistrationForm(forms.ModelForm):
 	password = forms.CharField(label='Ingresa tu contraseña', widget=forms.PasswordInput)
-	password = forms.CharField(label='Confirma tu contraseña', widget=forms.PasswordInput)
+	password2 = forms.CharField(label='Confirma tu contraseña', widget=forms.PasswordInput)
 
 	class Meta():
 		model = User
-		fields = ('username', 'first_name', 'email')
+		fields = ('username', 'first_name', 'email', )
 
 	def cleaned_password(self):
 		cd = self.cleaned_data
@@ -18,6 +18,8 @@ class UserRegistrationForm(forms.ModelForm):
 		return cd['password2']
 
 class ProfileForm(forms.ModelForm):
+	cover = forms.ImageField(label='Foto de portada', widget=forms.FileInput(attrs={'class':'imageprofile', 'required':'false'}))
+	avatar = forms.ImageField(label='Foto de perfil', widget=forms.FileInput(attrs={'class':'imageprofile', 'required':'false'}))
 	class Meta():
 		model = Profile
 		fields = ('cover', 'avatar', 'birth', 'tel', 'bio')

@@ -1,0 +1,20 @@
+.bx-shadow{
+	box-shadow: 0px 0px 20px 7px rgba(0,0,0,.15	);
+	background-color:rgba(0,0,0,.12); 
+	display: block;
+	width: auto;
+}
+
+.little-margin{
+	margin: 3% !important;
+	margin-top: -3% !important;
+}
+
+.border-radius{
+	border-radius: 5px;
+}
+
+.little-padding{
+	padding-top: 1%;
+	padding-bottom: 1%;
+}
