@@ -9,13 +9,30 @@
 			padding-top: 5%
 		}
 
+		.remove-margin{
+			margin: 0 !important;
+		}
+
 		.top-all{
 			margin-left: 5%;
 			margin-right: 2%;
 		}
+
+		.nav_higher{
+			height: 10% !important;
+		}
+
+		.image-subject{
+			border-radius: 25px;
+		}
+
+		.padding-lateral{
+			padding-right: 10%;
+			padding-left: 10%;
+		}
 	</style>
-	<section class="container columns">
-		<div class="column is-one-quarter is-fullheight is-fullwidth notification is-info has-text-centered" style="overflow-y: scroll; height:100%;">
+	<section class="columns remove-margin">
+		<div class="column is-one-quarter is-fullheight is-fullwidth notification has-text-centered remove-margin" style="overflow-y: scroll !important; height:100%;">
 			<h2 class="title top">{{subject.title}} ({{courses|length}})</h2>
 			<h5 class="subtitle top">Selecciona un curso!</h5>
 			<hr>
@@ -40,17 +57,57 @@
 					<br>
 			{% endfor %}
 			</div>
-
 		</div>
-		<div class="column is-three-quarters" style="overflow-y: none;">
-			<nav class="nav has-shadow">
-				<div class="nav-left">
-					<div class="nav-item">
-						<img class="image" src="{{subject.image.url}}" alt="">
+		<div class="column remove-margin">
+			<nav class="level">
+				<div class="level-left">
+					<div class="level-item remove-margin">
+						<img src="{{subject.image.url}}" alt="" class="image is-64x64 image-subject">
+					</div>
+					<div class="level-item remove-margin">
+						<span class="icon is-medium">
+							<i class="fa fa-sort-down"></i>
+						</span>
+					</div>
+				</div>
+				{% if course_selected %}
+				<div class="level-right" style="padding-right: 15%; padding-left: 15%">
+					<div class="level-item remove-margin">
+						<div class="tabs is-medium is-boxed">
+							<ul>
+								<a href=""><li>Instructor: {{course_selected.owner}}</li></a>
+							</ul>
+						</div>
+					</div>
+					<div class="level-item" style="padding-right: 50%;">
+						&nbsp;
 					</div>
 				</div>
 			</nav>
+
+
+				<div class="container padding-lateral">
+					{% for module in modules %}
+						<div class="box">
+							<article class="media">
+								<div class="media-left column is-4">
+									<div class="content">
+										<h3 class="title">{{module.title}}</h3>
+										<p>{{module.description}} cursos</p>
+									</div>
+								</div>
+								<div class="media-content column is-7">
+									<div style="padding-top:5%;" class="column is-10">
+										<progress class="progress is-info" value="15" max="100">15</progress>
+									</div>			
+								</div>
+							</article>
+						</div>
+					{% endfor %}
+				</div>
+			{% endif %}
 		</div>
+		
 	</section>
 	
 {% endblock content %}

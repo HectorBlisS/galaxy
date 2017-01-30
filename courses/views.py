@@ -212,9 +212,19 @@ class SubjectDetail(View):
 		template_name = 'subjects/detail.html'
 		subject = Subject.objects.get(slug = slug)
 		courses = Course.objects.filter(subject = subject)
-		context = {
-		'subject': subject,
-		'courses': courses,
-		}
+		if course_slug != None:
+			course_selected = Course.objects.get(slug = course_slug)
+			modules = Module.objects.filter(course = course_selected)
+			context = {
+			'subject': subject,
+			'courses': courses,
+			'course_selected':course_selected,
+			'modules':modules
+			}
+		else:
+			context = {
+			'subject': subject,
+			'courses': courses,
+			}
 
 		return render(request, template_name, context)
