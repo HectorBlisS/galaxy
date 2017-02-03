@@ -70,6 +70,7 @@ urlpatterns = [
 	#
 #subjects
 	url(r'^subjects/(?P<slug>[\w-]+)$', views.SubjectDetail.as_view(), name="subject_detail"),
-    url(r'^subjects/(?P<slug>[\w-]+)/(?P<course_slug>[\w-]+)$', views.SubjectDetail.as_view(), name="subject_detail_with_course"),
+    url(r'^subjects/(?P<slug>[\w-]+)/(?P<course_slug>[\w-]+)$', views.SubjectDetail.as_view(), 
+    	name="subject_detail_with_course"),
 
 ]

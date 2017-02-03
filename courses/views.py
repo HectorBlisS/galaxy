@@ -229,6 +229,7 @@ class SubjectDetail(View):
 	def get(self,request, slug, course_slug=None):
 		template_name = 'subjects/detail.html'
 		subject = Subject.objects.get(slug = slug)
+		languajes = Subject.objects.all().exclude(title=subject.title)
 		courses = Course.objects.filter(subject = subject)
 		if course_slug != None:
 			course_selected = Course.objects.get(slug = course_slug)
@@ -237,12 +238,14 @@ class SubjectDetail(View):
 			'subject': subject,
 			'courses': courses,
 			'course_selected':course_selected,
-			'modules':modules
+			'modules':modules,
+			'languajes':languajes
 			}
 		else:
 			context = {
 			'subject': subject,
 			'courses': courses,
+			'languajes':languajes
 			}
 
 		return render(request, template_name, context)

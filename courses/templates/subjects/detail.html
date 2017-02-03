@@ -23,13 +23,50 @@
 		}
 
 		.image-subject{
-			border-radius: 25px;
+			border-radius: 50%;
+			-webkit-transition: -webkit-transform .8s ease-in-out;
+			transition: -webkit-transform .8s ease-in-out;
+		}
+
+		.image-subject:hover{
+			-webkit-transform: rotate(360deg);
+			transform: rotate(360deg);
 		}
 
 		.padding-lateral{
 			padding-right: 10%;
 			padding-left: 10%;
 		}
+		
+		.padding-lateral-icons{
+			padding-right: 5%;
+			padding-left: 5%;
+		}
+		.droptown{
+			position: absolute;
+			top: 100%;
+			background-color: #F5F5F5;
+			display: block;
+			z-index: 999;
+		}
+		
+		.margin{
+			padding-top: 5%;
+			padding-bottom: 5%;
+		}
+
+		.color-cursos{
+			background-color: #3273DC;
+		}
+
+		.color-cursos:hover{
+			background-color: #3200DC;
+		}
+
+		.color-curso-selected{
+			background-color: #3200DC;
+		}
+
 	</style>
 	<section class="columns remove-margin">
 		<div class="column is-one-quarter is-fullheight is-fullwidth notification has-text-centered remove-margin" style="overflow-y: scroll !important; height:100%;">
@@ -37,9 +74,26 @@
 			<h5 class="subtitle top">Selecciona un curso!</h5>
 			<hr>
 			<div class="container" style="text-align:justify">
+			{% if courses %}
 			{% for course in courses %}
+
+				{% if course_selected.title == course.title %}
+					<a href="{%url 'courses:subject_detail_with_course' subject.slug course.slug%}">
+						<div class="card is-fullwidth top-all color-curso-selected">
+							<!--<header class="card-header">
+								<p class="title is-4">{{course.title}}</p>
+							</header>-->
+							<div class="card-content">
+								<div class="content" style="color: white">
+									<p class="title is-4"><strong>{{course.title}}</strong></p>
+									<p class="subtitle is-6 top-mitad">{{course.overview}}</p>
+								</div>
+							</div>
+						</div>
+					</a>	
+				{% else %}
 				<a href="{%url 'courses:subject_detail_with_course' subject.slug course.slug%}">
-					<div class="card is-fullwidth top-all" style="background-color: #3273DC;">
+					<div class="card is-fullwidth top-all color-cursos">
 						<!--<header class="card-header">
 							<p class="title is-4">{{course.title}}</p>
 						</header>-->
@@ -49,18 +103,19 @@
 								<p class="subtitle is-6 top-mitad">{{course.overview}}</p>
 							</div>
 						</div>
-						<!--<footer class="card-footer">
-							<p>Instructor: <a href="">{{course.owner}}</a></p>
-						</footer>-->
 					</div>
 				</a>
+				{% endif %}
 					<br>
 			{% endfor %}
+			{% else %}
+				<h1 class="title">Aún no hay cursos :(</h1>
+			{% endif %}
 			</div>
 		</div>
 		<div class="column remove-margin">
 			<nav class="level">
-				<div class="level-left">
+				<div class="level-left" id="button-languajes" style="position:relative;">
 					<div class="level-item remove-margin">
 						<img src="{{subject.image.url}}" alt="" class="image is-64x64 image-subject">
 					</div>
@@ -69,13 +124,24 @@
 							<i class="fa fa-sort-down"></i>
 						</span>
 					</div>
+					<div class="droptown" style="display: none;">
+							<ul class="padding-lateral">
+								{% for languaje in languajes %}
+									<li class="margin">
+									<a href="{%url 'courses:subject_detail' languaje.slug%}">
+										<img src="{{languaje.image.url}}" alt="" class="image is-64x64 image-subject">
+									</a>
+									</li>
+								{% endfor %}
+							</ul>
+						</div>
 				</div>
 				{% if course_selected %}
 				<div class="level-right" style="padding-right: 15%; padding-left: 15%">
 					<div class="level-item remove-margin">
 						<div class="tabs is-medium is-boxed">
 							<ul>
-								<a href=""><li>Instructor: {{course_selected.owner}}</li></a>
+								<a href="{%url 'user_detail' course_selected.owner.username%}"><li>Instructor: {{course_selected.owner}}</li></a>
 							</ul>
 						</div>
 					</div>
@@ -86,9 +152,9 @@
 			</nav>
 
 
-				<div class="container padding-lateral">
+				<div class="container padding-lateral" style="position:relative;">
 					{% for module in modules %}
-						<div class="box">
+						<div class="box open_items" id="{{module.order}}">
 							<article class="media">
 								<div class="media-left column is-4">
 									<div class="content">
@@ -102,12 +168,40 @@
 									</div>			
 								</div>
 							</article>
+							<article class="media top-mitad" id="{{module.order}}_droptown" style="display:none">
+								<div class="media-content">
+									{% for content in module.contents.all %}
+										<a href="#">
+											<img src="/media/images/icons/{{content.content_type}}.svg" alt="" class="padding-lateral-icons">
+										</a>
+									{% endfor %}
+								</div>
+							</article>
 						</div>
 					{% endfor %}
+
+				</div>
+			{% else %}
+				<div class="container" style="position:absolute; top:50%; left:45%; text-align:center;">
+					<h1 class="title">Selecciona un curso de la izquierda!</h1>
 				</div>
 			{% endif %}
 		</div>
 		
 	</section>
 	
+	
 {% endblock content %}
+{% block domready %}
+		
+		$('#button-languajes').on('click', function(){
+			$('.droptown').slideToggle('fast');
+		});
+
+		$('.open_items').on('click',function(){
+			let id = $(this).attr('id');
+			console.log(id);
+			$('#'+id+'_droptown').slideToggle('slow');
+		});
+
+	{% endblock domready %}
