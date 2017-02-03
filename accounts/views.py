@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View
 
 from django.utils.decorators import method_decorator
@@ -8,13 +8,66 @@ from .forms import UserRegistrationForm, ProfileForm
 
 from .models import Profile
 
+from braces.views import LoginRequiredMixin
+from django.views.generic.base import TemplateResponseMixin
+from django.contrib.auth.models import User
+
+# follow users
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+
+# from common.decorators import ajax_required
+from .models import Contact
+
+
+# <- Listado de usuarios para seguirlos
+class UserList(LoginRequiredMixin, TemplateResponseMixin, View):
+	template_name = "accounts/user/list.html"
+	def get(self, request):
+		users = User.objects.filter(is_active=True)
+		return self.render_to_response({'section':'people','users':users})
+
+class UserDetail(LoginRequiredMixin, TemplateResponseMixin, View):
+	template_name="accounts/user/detail.html"
+	def get(self, request, username):
+		user = get_object_or_404(User, username=username, is_active=True)
+		return self.render_to_response({'section':'people','user':user})
+# Listado de usuarios para seguirlos ->
+
+# Seguir y dejar de seguir usuarios
+@require_POST
+@login_required
+def user_follow(request):
+	if request.is_ajax():
+		user_id = request.POST.get('id')
+		action = request.POST.get('action')
+		if user_id and action:
+			try:
+				user = User.objects.get(id=user_id)
+				if action == 'follow':
+					Contact.objects.get_or_create(
+						user_from=request.user,
+						user_to=user)
+				else:
+					Contact.objects.filter(user_from=request.user,
+						user_to=user).delete()
+				return JsonResponse({'status':'ok'})
+			except User.DoesNotExist:
+				return JsonResponse({'status':'ko'})
+	return JsonResponse({'status':'ko'})
+
+
+
+
 class Dashboard(View):
 	@method_decorator(login_required)
 	def get(self, request):
 		template_name = 'accounts/dashboard.html'
-		form = ProfileForm()
+		form_profile = ProfileForm(instance=request.user.profile)
+		#form_user = 
 		context = {
-			'form':form
+			'form_profile':form_profile,
+			#'form_user':form_user
 		}
 		return render(request, template_name, context)
 
@@ -42,7 +95,7 @@ class Registration(View):
 			profile.user = new_user
 			profile.save()
 
-			return redirect('accounts:profile')
+			return redirect('dashboard')
 
 		else:
 			template_name = 'registration/registration.html'

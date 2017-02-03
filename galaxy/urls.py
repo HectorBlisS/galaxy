@@ -6,10 +6,14 @@ from accounts import urls as accountsUrls
 from django.views.static import serve
 from django.conf import settings
 from django.contrib.auth.views import password_reset, password_reset_confirm, password_reset_done, password_reset_complete
-
+from students import urls as studentsUrls
 
 
 urlpatterns = [
+    
+    url(r'^students/',
+        include(studentsUrls, namespace="students")),
+
     url(r'^admin/', admin.site.urls),
 
     url(r'^courses/',

@@ -30,23 +30,23 @@
 
 
   </div>
-  <div style="height:100vh;overflow:scroll" class="column notification is-light">
+  <div style="height:100vh;overflow:scroll" class="container column is-10 notification is-light">
   	<h1 class="title">Curso: "{{course.title}}"</h1>
 
 	<div class="module">
 		<h2>Modulo {{module.order|add:1}}: {{module.title}}</h2>
 		<h3>Module contents:</h3>
 
-		<div id="module-contents">
+		<ul id="module-contents">
 			{%for content in module.contents.all%}
-			<div style="margin:10px 0 10px 0" class="card" data-id="{{content.id}}">
-				<div class="card-content">
+			<li style="margin:10px 0 10px 0" class="card" data-id="{{content.id}}">
+				<div class="card-content mi-card">
 				{%with item=content.item%}
 					
-					<p class="title">{{item}} ({{item|model_name}})</p>
-					<div class="card-footer">
-					<a class="card-footer-item" href="{%url 'courses:module_content_update' module.id item|model_name item.id%}">Editar</a>
-					<form class="card-footer-item" action="{%url 'courses:module_content_delete' content.id%}" method="post">
+					<p>{{item}} ({{item|model_name}})</p>
+					<div class="derecha">
+					<a class="" href="{%url 'courses:module_content_update' module.id item|model_name item.id%}">Editar</a>
+					<form class="" action="{%url 'courses:module_content_delete' content.id%}" method="post">
 						<input type="submit" value="Borrar">
 						{%csrf_token%}
 
@@ -55,13 +55,13 @@
 				{%endwith%}
 				
 				</div>
-			</div>
+			</li>
 		{%empty%}
-		<p>
+		<li>
 			Este modulo aún no tiene contenido
-		</p>
+		</li>
 		{%endfor%}
-	</div>
+	</ul>
 	<hr>
 	<div class="card">
 		<h3 class="title card-header">Agregar nuevo contenido:</h3>

@@ -1,15 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Dashboard</title>
-</head>
-<body>
-	Perfil de <b>{{request.user.first_name}}</b>
+{%extends 'base.html'%}
+{%load static%}
+{%block content%}
+	
+	{%if request.user.profile.cover%}
+	<section class="hero is-info is-large" style="background-image:url(/media/{{request.user.profile.cover.url}}); background-size:cover; background-position:center; ">
+	{%else%}
+	<section class="hero is-info is-large" style="background-image:url({% static 'images/cover_default.jpg' %}); background-size:cover; background-position:center; ">
+	{%endif%}
+		<div class="hero-body">
+			<div class="container">
+				<h1 class="title">
+					Perfil de <b>{{request.user.first_name}} {{request.user.last_name}}</b>
+				</h1>
+			</div>
+		</div>
+	</section>
+	
+	
+	<div class="columns card little-margin less-top border-radius little-padding">
 
-	<form action="">
-		{% csrf_token %}
-		{{form.as_p}}
-	</form>
-</body>
-</html>
+		<div class="column is-6 is-offset-1">
+			<div class="card">
+				<div class="card-content">
+					<form action="" class="">
+						{% csrf_token %}
+						{{form_profile.as_p}}
+						<input type="submit" class="button">
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="column is-4">
+			<div class="card">
+				<div class="card-content">
+					<div class="content">
+						<h1 class="title">
+							Tus cursos
+						</h1>
+
+
+						<div class="card">
+						  <header class="card-header">
+						    <p class="card-header-title">
+						      Component
+						    </p>
+						    <a class="card-header-icon">
+						      <span class="icon">
+						        <i class="fa fa-angle-down"></i>
+						      </span>
+						    </a>
+						  </header>
+						  <div class="card-content">
+						    <div class="content">
+						      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
+						      <a>@bulmaio</a>. <a>#css</a> <a>#responsive</a>
+						      <br>
+						      <small>11:09 PM - 1 Jan 2016</small>
+						    </div>
+						  </div>
+						  <footer class="card-footer">
+						    <a class="card-footer-item">Save</a>
+						    <a class="card-footer-item">Edit</a>
+						    <a class="card-footer-item">Delete</a>
+						  </footer>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+{%endblock content%}
+
+{%block domready%}
+	$('label').addClass('label')
+	$('input').addClass('input')
+	$('.button').removeClass('input')
+	$('textarea').addClass('textarea')
+{%endblock domready%}

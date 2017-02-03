@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main',
     'courses',
+    'students',
+    'embed_video',
 ]
 
 MIDDLEWARE = [
@@ -135,7 +137,15 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 STATIC_URL = '/static/'
 STATIC_ROOT = 'staticfiles'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+
+MEDIA_ROOT = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+from django.core.urlresolvers import reverse_lazy
+LOGIN_REDIRECT_URL = reverse_lazy('student_course_list')
+
+ABSOLUTE_URL_OVERRIDES = {
+    'auth.user':lambda u:reverse_lazy('user_detail', args=[u.username])
+}
 
 
