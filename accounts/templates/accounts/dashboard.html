@@ -20,13 +20,23 @@
 	<div class="columns card little-margin less-top border-radius little-padding">
 
 		<div class="column is-6 is-offset-1">
+			<h2>Tu muro</h2>
 			<div class="card">
 				<div class="card-content">
-					<form action="" class="">
+					<!--<form action="" class="">
 						{% csrf_token %}
 						{{form_profile.as_p}}
 						<input type="submit" class="button">
-					</form>
+					</form>-->
+
+					
+					<div id="action-list">
+						{%for action in actions%}
+						{%include "actions/action/detail.html"%}
+						{%endfor%}
+					</div>
+
+
 				</div>
 			</div>
 		</div>
