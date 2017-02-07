@@ -19,6 +19,11 @@ from django.views.decorators.http import require_POST
 # from common.decorators import ajax_required
 from .models import Contact
 
+# Activity stream actions
+from actions.utils import create_action
+from actions.models import Action
+
+
 
 # <- Listado de usuarios para seguirlos
 class UserList(LoginRequiredMixin, TemplateResponseMixin, View):
@@ -48,6 +53,7 @@ def user_follow(request):
 					Contact.objects.get_or_create(
 						user_from=request.user,
 						user_to=user)
+					create_action(request.user, 'está siguiendo a', user)
 				else:
 					Contact.objects.filter(user_from=request.user,
 						user_to=user).delete()
@@ -62,11 +68,21 @@ def user_follow(request):
 class Dashboard(View):
 	@method_decorator(login_required)
 	def get(self, request):
+		#mostramos todas las acciones por default
+		actions = Action.objects.exclude(user=request.user)
+		following_ids = request.user.following.values_list('id',flat=True)
+		if following_ids:
+			# si el usuario está siguiendo a otros, filtramos las acciones
+			# actions = actions.filter(user_id__in=following_ids)
+			# optimizando la peticion:
+			actions = actions.filter(user_id__in=following_ids).select_related('user','user__profile').prefetch_related('target')
+		actions = actions[:10]
 		template_name = 'accounts/dashboard.html'
 		form_profile = ProfileForm(instance=request.user.profile)
 		#form_user = 
 		context = {
 			'form_profile':form_profile,
+			'actions':actions,
 			#'form_user':form_user
 		}
 		return render(request, template_name, context)
