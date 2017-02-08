@@ -5,6 +5,11 @@
 	width: auto;
 }
 
+.hero-body{
+	padding-top: 7% !important;
+	padding-bottom: 7% !important; 
+}
+
 .little-margin{
 	margin: 3% !important;
 	margin-top: -3% !important;
@@ -18,3 +23,26 @@
 	padding-top: 1%;
 	padding-bottom: 1%;
 }
+
+.avatar-card{
+	width: 25%;
+	border-radius: 5px;
+	padding: 5px;
+	transition: .4s;
+	text-align: center;
+	margin-top: 0;
+}
+
+.avatar-card img{
+	opacity: 0;
+	border-radius: 5px;
+	transition: .4s;
+}
+
+.avatar-card:hover{
+	background-color: white;
+	color: #2A2A2A !important;
+}
+	.avatar-card:hover img{
+		opacity: 1;
+	}

@@ -9,7 +9,12 @@
 	{%endif%}
 		<div class="hero-body">
 			<div class="container">
-				<h1 class="title">
+				<h1 class="title avatar-card">
+					{% if request.user.profile.avatar %}
+						<img src="/media/{{request.user.profile.avatar.url}}">
+					{% else %}
+						<img src="{% static 'images/geek_paFace.png' %}">
+					{% endif %}
 					Perfil de <b>{{request.user.first_name}} {{request.user.last_name}}</b>
 				</h1>
 			</div>
