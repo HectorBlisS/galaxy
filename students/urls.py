@@ -13,15 +13,16 @@ urlpatterns = [
 
 # Lista de cursos comprados por usuario y detalle
 
-	url(r'^courses/$',
-		views.StudentCourseListview.as_view(),
-		name="student_course_list"),
+
+	url(r'^course/(?P<pk>\d+)/(?P<module_id>\d+)/$',
+		views.StudentCourseDetailView.as_view(),
+		name="student_course_detail_module"),
 
 	url(r'^course/(?P<pk>\d+)/$',
 		views.StudentCourseDetailView.as_view(),
 		name="student_course_detail"),
 
-	url(r'^course/(?P<pk>\d+)/(?P<module_id>\d+)/$',
-		views.StudentCourseDetailView.as_view(),
-		name="student_course_detail_module"),
+	url(r'^courses/$',
+		views.StudentCourseListview.as_view(),
+		name="student_course_list"),
 ]
