@@ -33,22 +33,21 @@
 	margin-top: 0;
 }
 
-.avatar-card img{
-	opacity: 0;
-	border-radius: 5px;
-	transition: .4s;
-}
-
-.avatar-card:hover{
-	background-color: white;
-	color: #2A2A2A !important;
-}
-	.avatar-card:hover img{
-		opacity: 1;
+	.avatar-card img{
+		opacity: 0;
+		border-radius: 5px;
+		transition: .4s;
 	}
 
-/*
-.avatar-circle{
-	border-radius: 30% !important;
-}
-*/
+	.avatar-card:hover{
+		background-color: red;
+		color: #2A2A2A !important;
+	}
+		.avatar-card:hover img{
+			opacity: 1;
+		}
+
+	
+	.avatar-card img.icon{
+		position: absolute;		
+	}
