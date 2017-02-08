@@ -9,9 +9,9 @@
 		<div class="user">
 			<a href="{{u.get_absolute_url}}">
 				{% if u.profile.avatar %}
-					<img width="100" src="/media/{{u.profile.avatar.url}}">
+					<img width="100" class="avatar-circle" src="/media/{{u.profile.avatar.url}}">
 				{% else %}
-					<img width="100" src="{%static 'images/geek_paFace.png'%}">	
+					<img width="100" class="avatar-circle" src="{%static 'images/geek_paFace.png'%}">	
 				{% endif %}
 			</a>
 			<div class="info">

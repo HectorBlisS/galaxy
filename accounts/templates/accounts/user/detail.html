@@ -1,4 +1,5 @@
 {%extends 'base.html'%}
+{%load static%}
 
 {%block content%}
 
@@ -7,7 +8,11 @@
 
 		<div class="user">
 			<a href="{{user.get_absolute_url}}">
-				<img width="100" src="/media/{{user.profile.avatar.url}}">
+				{% if u.profile.avatar %}
+					<img width="100" class="avatar-circle" src="/media/{{u.profile.avatar.url}}">
+				{% else %}
+					<img width="100" class="avatar-circle" src="{%static 'images/geek_paFace.png'%}">	
+				{% endif %}
 			</a>
 
 			<div class="info">
