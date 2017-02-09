@@ -1,3 +1,6 @@
+
+/*  ---SHADOWS & OTHERS---  */
+
 .bx-shadow{
 	box-shadow: 0px 0px 20px 7px rgba(0,0,0,.15	);
 	background-color:rgba(0,0,0,.12); 
@@ -5,23 +8,36 @@
 	width: auto;
 }
 
-.hero-body{
-	padding-top: 7% !important;
-	padding-bottom: 7% !important; 
+.border-radius{
+	border-radius: 5px;
 }
+
+
+/*  ---MARGINS---  */
 
 .little-margin{
 	margin: 3% !important;
 	margin-top: -3% !important;
 }
 
-.border-radius{
-	border-radius: 5px;
-}
+
+/*  ---PADDINGS---  */ 
 
 .little-padding{
 	padding-top: 1%;
 	padding-bottom: 1%;
+}
+
+.mid-padding{
+	padding: 1.5%; 	
+}
+
+
+/*  ---ESTILOS ESPECIFICOS---  */ 
+
+.hero-body{
+	padding-top: 7% !important;
+	padding-bottom: 7% !important; 
 }
 
 .avatar-card{
@@ -40,7 +56,7 @@
 	}
 
 	.avatar-card:hover{
-		background-color: red;
+		background-color: white;
 		color: #2A2A2A !important;
 	}
 		.avatar-card:hover img{
@@ -50,4 +66,44 @@
 	
 	.avatar-card img.icon{
 		position: absolute;		
+		top: 10px;
+		right: 76%;
+		cursor: pointer;
 	}
+
+.edit-user-form{
+	position: absolute;
+	width: 80%;
+	height: 80%;
+	background-color: white;
+	z-index: 10;
+	top:0;
+	left:0;
+	right: 0;
+	bottom: 0;
+	margin: auto !important;
+	display: none;
+	opacity: 0;
+	transition: .4s;
+}
+	
+	#capa-negra{
+		position: absolute;
+		height: 100% !important;
+		width: 100% !important;
+		background-color: rgba(0,0,0,.8);
+		display: none;
+		z-index: 8;
+	}
+
+	.edit-user-form img.icon{
+		position: absolute;
+		top: 1.5%;
+		right: 1.5%;
+		cursor: pointer;
+	}
+
+.set-visible{
+	display: block;
+	opacity: 1;
+}

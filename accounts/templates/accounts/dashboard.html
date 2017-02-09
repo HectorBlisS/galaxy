@@ -15,13 +15,28 @@
 					{% else %}
 						<img src="{% static 'images/geek_paFace.png' %}">
 					{% endif %}
-					<img src="{%static 'images/lapiz.png'%}" class="icon">
+					<img src="{%static 'images/lapiz.png'%}" id="edit" class="icon">
 					Perfil de <b>{{request.user.first_name}} {{request.user.last_name}}</b>
 				</h1>
 			</div>
 		</div>
 	</section>
 	
+	<section id="capa-negra">
+		.		
+	</section>
+
+	<section class="edit-user-form border-radius mid-padding">
+		<article>
+			<img src="{% static 'images/cerrar.png' %}" id="cerrar" class="icon">
+			<form action="." method="post" enctype="multipart/form-data">
+				{%csrf_token%}
+				{{form_user.as_p}}
+				{{form_profile.as_p}}
+				<input type="submit">
+			</form>
+		</article>
+	</section>
 	
 	<div class="columns card little-margin less-top border-radius little-padding">
 
@@ -95,4 +110,17 @@
 	$('input').addClass('input')
 	$('.button').removeClass('input')
 	$('textarea').addClass('textarea')
+
+	$('#edit').on('click', function(){
+		$('.edit-user-form').toggleClass('set-visible');
+		console.log('form visible');
+		$('#capa-negra').toggleClass('set-visible');
+		console.log('capa visible');
+	});
+	
+	$('#cerrar').on('click', function(){
+		$('.edit-user-form').toggleClass('set-visible');
+		$('#capa-negra').toggleClass('set-visible');
+	});
+
 {%endblock domready%}

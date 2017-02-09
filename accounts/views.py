@@ -4,7 +4,7 @@ from django.views.generic import View
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
-from .forms import UserRegistrationForm, ProfileForm
+from .forms import UserRegistrationForm, ProfileForm, UserEditForm
 
 from .models import Profile
 
@@ -77,15 +77,20 @@ class Dashboard(View):
 			# optimizando la peticion:
 			actions = actions.filter(user_id__in=following_ids).select_related('user','user__profile').prefetch_related('target')
 		actions = actions[:10]
+
 		template_name = 'accounts/dashboard.html'
 		form_profile = ProfileForm(instance=request.user.profile)
-		#form_user = 
+		form_user_edit = UserEditForm(instance=request.user)
 		context = {
 			'form_profile':form_profile,
 			'actions':actions,
-			#'form_user':form_user
+			'form_user':form_user_edit
 		}
 		return render(request, template_name, context)
+
+	def post(self, request):
+		pass
+
 
 class Registration(View):
 	def get(self, request):

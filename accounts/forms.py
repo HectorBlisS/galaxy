@@ -17,6 +17,11 @@ class UserRegistrationForm(forms.ModelForm):
 			raise forms.ValidationError('Las contraseñas no coinciden')
 		return cd['password2']
 
+class UserEditForm(forms.ModelForm):
+	class Meta():
+		model = User
+		fields = ('username', 'first_name', 'email', )
+
 class ProfileForm(forms.ModelForm):
 	cover = forms.ImageField(label='Foto de portada', widget=forms.FileInput(attrs={'class':'imageprofile', 'required':'false'}))
 	avatar = forms.ImageField(label='Foto de perfil', widget=forms.FileInput(attrs={'class':'imageprofile', 'required':'false'}))
