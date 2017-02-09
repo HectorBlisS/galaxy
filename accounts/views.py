@@ -89,7 +89,24 @@ class Dashboard(View):
 		return render(request, template_name, context)
 
 	def post(self, request):
-		pass
+		user_form = UserEditForm(data=request.POST, instance=request.user)
+		profile_form = ProfileForm(data=request.POST, files=request.FILES, instance=request.user.profile)
+
+		if user_form.is_valid() and profile_form.is_valid():
+			user_form.save()
+			profile_form.save()
+
+			context = {
+				'form_user':user_form,
+				'form_profile':profile_form
+			}
+
+			return redirect('dashboard')
+
+		else:
+			print('error')
+			return redirect('dashboard')
+
 
 
 class Registration(View):

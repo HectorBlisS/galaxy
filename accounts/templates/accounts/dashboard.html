@@ -21,19 +21,17 @@
 			</div>
 		</div>
 	</section>
-	
-	<section id="capa-negra">
-		.		
-	</section>
 
-	<section class="edit-user-form border-radius mid-padding">
-		<article>
+	<section class="edit-user-form">
+		<article class=" mid-padding border-radius">
 			<img src="{% static 'images/cerrar.png' %}" id="cerrar" class="icon">
 			<form action="." method="post" enctype="multipart/form-data">
 				{%csrf_token%}
 				{{form_user.as_p}}
 				{{form_profile.as_p}}
-				<input type="submit">
+				<p class="control">
+					<input type="submit" class="button is-success">
+				</p>
 			</form>
 		</article>
 	</section>
@@ -106,6 +104,7 @@
 {%endblock content%}
 
 {%block domready%}
+
 	$('label').addClass('label')
 	$('input').addClass('input')
 	$('.button').removeClass('input')
