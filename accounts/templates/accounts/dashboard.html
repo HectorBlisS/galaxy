@@ -23,8 +23,14 @@
 	</section>
 
 	<section class="edit-user-form">
-		<article class=" mid-padding border-radius">
+		<article class="mid-padding border-radius">
+
+			<div class="header">
+				<h1>Editar Perfil</h1>	
+			</div>
+
 			<img src="{% static 'images/cerrar.png' %}" id="cerrar" class="icon">
+
 			<form action="." method="post" enctype="multipart/form-data">
 				{%csrf_token%}
 				{{form_user.as_p}}
@@ -33,30 +39,64 @@
 					<input type="submit" class="button is-success">
 				</p>
 			</form>
+
 		</article>
 	</section>
 	
-	<div class="columns card little-margin less-top border-radius little-padding">
-
-		<div class="column is-6 is-offset-1">
+	<div class="columns card little-margin less-top border-radius mid-padding">
+		
+		<div class="column is-2" id="menu">
 			<div class="card">
-				<div class="card-content">
-					<!--<form action="" class="">
-						{% csrf_token %}
-						{{form_profile.as_p}}
-						<input type="submit" class="button">
-					</form>-->
-
-					
-					<div id="action-list">
-						{%for action in actions%}
-						{%include "actions/action/detail.html"%}
-						{%endfor%}
-					</div>
-
-
-				</div>
+				<p class="menu-label">
+			    General
+			  </p>
+			  <ul class="menu-list">
+			    <li><a>Dashboard</a></li>
+			    <li><a>Customers</a></li>
+			  </ul>
+			  <p class="menu-label">
+			    Administration
+			  </p>
+			  <ul class="menu-list">
+			    <li><a>Team Settings</a></li>
+			    <li>
+			      <a class="is-active">Manage Your Team</a>
+			      <ul>
+			        <li><a>Members</a></li>
+			        <li><a>Plugins</a></li>
+			        <li><a>Add a member</a></li>
+			      </ul>
+			    </li>
+			    <li><a>Invitations</a></li>
+			    <li><a>Cloud Storage Environment Settings</a></li>
+			    <li><a>Authentication</a></li>
+			  </ul>
+			  <p class="menu-label">
+			    Transactions
+			  </p>
+			  <ul class="menu-list">
+			    <li><a>Payments</a></li>
+			    <li><a>Transfers</a></li>
+			    <li><a>Balance</a></li>
+			  </ul>
 			</div>
+		</div>
+
+		<div class="column is-6">
+			<div class="card">
+				<!--<form action="" class="">
+					{% csrf_token %}
+					{{form_profile.as_p}}
+					<input type="submit" class="button">
+				</form>-->
+
+				
+				<div id="action-list">
+					{%for action in actions%}
+					{%include "actions/action/detail.html"%}
+					{%endfor%}
+				</div>
+				</div>
 		</div>
 
 		<div class="column is-4">

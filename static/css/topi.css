@@ -89,6 +89,10 @@
 	transition: .4s;
 }
 	
+	.edit-user-form .header{
+		position: fixed;
+	}
+
 	.edit-user-form{
 		position: fixed;
 		top:0;

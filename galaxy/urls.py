@@ -14,16 +14,16 @@ urlpatterns = [
     url(r'^students/',
         include(studentsUrls, namespace="students")),
 
+    url(r'^accounts/', 
+        include(accountsUrls)),
+
     url(r'^admin/', admin.site.urls),
 
     url(r'^courses/',
-    	include(coursesUrls, namespace="courses")),
+        include(coursesUrls, namespace="courses")),
 
     url(r'^',
-    	include(mainUrls)),
-
-    url(r'^accounts/', 
-        include(accountsUrls)),
+        include(mainUrls)),
 
     url(
         regex=r'^media/(?P<path>.*)$',
