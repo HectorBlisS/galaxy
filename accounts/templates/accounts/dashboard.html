@@ -43,47 +43,44 @@
 		</article>
 	</section>
 	
-	<div class="columns card little-margin less-top border-radius mid-padding">
+	<div class="columns is-multiline card little-margin less-top border-radius mid-padding">
 		
 		<div class="column is-2" id="menu">
-			<div class="card">
+			<div class="">
 				<p class="menu-label">
 			    General
 			  </p>
 			  <ul class="menu-list">
-			    <li><a>Dashboard</a></li>
-			    <li><a>Customers</a></li>
+			    <li><a class="">Dashboard</a></li>
+			    <li><a href="#followers">Followers</a></li>
+			    <li><a>Following</a></li>
 			  </ul>
 			  <p class="menu-label">
 			    Administration
 			  </p>
 			  <ul class="menu-list">
-			    <li><a>Team Settings</a></li>
+			    <li><a>Stadistics</a></li>
 			    <li>
-			      <a class="is-active">Manage Your Team</a>
+			      <a class="">Search a course</a>
 			      <ul>
-			        <li><a>Members</a></li>
-			        <li><a>Plugins</a></li>
-			        <li><a>Add a member</a></li>
+			        <li><a>Sugestions</a></li>
+			        <li><a>Popular</a></li>
+			        <li><a>Latest</a></li>
 			      </ul>
 			    </li>
-			    <li><a>Invitations</a></li>
-			    <li><a>Cloud Storage Environment Settings</a></li>
-			    <li><a>Authentication</a></li>
+			    <li><a>Change Password</a></li>
 			  </ul>
 			  <p class="menu-label">
 			    Transactions
 			  </p>
 			  <ul class="menu-list">
 			    <li><a>Payments</a></li>
-			    <li><a>Transfers</a></li>
-			    <li><a>Balance</a></li>
 			  </ul>
 			</div>
 		</div>
 
 		<div class="column is-6">
-			<div class="card">
+			<div class="">
 				<!--<form action="" class="">
 					{% csrf_token %}
 					{{form_profile.as_p}}
@@ -100,11 +97,11 @@
 		</div>
 
 		<div class="column is-4">
-			<div class="card">
+			<div class="">
 				<div class="card-content">
 					<div class="content">
 						<h1 class="title">
-							Tus cursos
+							Ultimos cursos agregados
 						</h1>
 
 
@@ -136,6 +133,36 @@
 
 
 					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="column is-6" id="followers">
+			<div class="card-content">
+				<div class="content">
+					<h1 class="titl">
+						Followers
+					</h1>
+				</div>
+			</div>
+		</div>
+
+		<div class="column is-6" id="following">
+			<div class="card-content">
+				<div class="content">
+					<h1 class="titl">
+						Following
+					</h1>
+				</div>
+			</div>
+		</div>
+
+		<div class="column is-6" id="stadistics">
+			<div class="card-content">
+				<div class="content">
+					<h1 class="titl">
+						Stadistics
+					</h1>
 				</div>
 			</div>
 		</div>
