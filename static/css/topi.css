@@ -116,3 +116,7 @@ body, html{
 .mid-padding{
 	padding: 1.5%; 	
 }
+
+.tag-img{
+	width: 100% !important;
+}

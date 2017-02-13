@@ -143,6 +143,15 @@
 					<h1 class="titl">
 						Followers
 					</h1>
+
+					<div>
+						{% for f in request.user.followers.all %}
+							<p><a href="{{f.get_absolute_url}}">{{f.username}}</a></p>
+						{%empty%}
+							No tienes seguidores
+						{% endfor %}
+					</div>
+
 				</div>
 			</div>
 		</div>
@@ -153,6 +162,28 @@
 					<h1 class="titl">
 						Following
 					</h1>
+
+					<div class="columns is-multiline">
+						{% for f in request.user.following.all %}
+							<div class="column is-3">
+								
+								<div class="tag is-medium">
+									<a href="{{f.get_absolute_url}}" class="media">
+										{% if f.profile.avatar %}
+											<img class="image is-24x24 media-left" src="/media/{{f.user.profile.avatar.url}}">
+										{% else %}
+											<img class="image is-24x24" src="{% static 'images/geek_paFace.png' %}">
+										{% endif %}
+										<span class="media-right">{{f.username}}</span>
+									</a>
+								</div>
+
+							</div>
+						{%empty%}
+							No sigues a nadie
+						{% endfor %}
+					</div>
+
 				</div>
 			</div>
 		</div>
