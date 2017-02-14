@@ -1,5 +1,6 @@
 {% extends "base2.html" %}
 
+{% load embed_video_tags %}
 {% block content %}
 
 	<style>
@@ -28,6 +29,7 @@
 			border-radius: 50%;
 			-webkit-transition: -webkit-transform .8s ease-in-out;
 			transition: -webkit-transform .8s ease-in-out;
+			padding: 5%;
 		}
 
 		.image-subject:hover{
@@ -38,6 +40,11 @@
 		.padding-lateral{
 			padding-right: 10%;
 			padding-left: 10%;
+		}
+
+		.padding-description{
+			padding-right: 3%;
+			padding-left: 3%;
 		}
 		
 		.padding-lateral-icons{
@@ -97,14 +104,30 @@
 			display: none;
 		}
 
+		.border-bye{
+			border-top: 0px !important;
+			margin-top: 0px !important;
+			padding-top: 0px !important;
+		}
+
+		.icon-desplegable:hover{
+			color: #38A9F6;
+			-webkit-transition: color .5s ease-in-out;
+			transition: color .5s ease-in-out;
+		}
+
+		.padding-icons{
+			padding-left: 2%;
+		}
+
 	</style>
 
 	<section class="columns remove-margin">
 
 		<div class="column is-one-quarter is-fullheight is-fullwidth notification has-text-centered remove-margin fixeded scroll" style="background-color: #38A9F6; color:white">
 
-			<h2 class="title top">{{subject.title}} ({{courses|length}})</h2>
-			<h5 class="subtitle top">Selecciona un curso!</h5>
+			<!--<h2 class="title top">{{subject.title}} ({{courses|length}})</h2>-->
+			<h5 class="title top">Selecciona un curso!</h5>
 			<hr>
 
 			<div class="container" style="text-align:justify">
@@ -155,50 +178,48 @@
 			</ul>
 			{% else %}
 
-				<h1 class="title">Aún no hay cursos :(</h1>
+				<h1 class="title" style="text-align:center;">Aún no hay cursos :(</h1>
 			{% endif %}
 			</div>
 		</div>
 
 		<div class="column remove-margin" style="margin-left:25% !important;">
-			<nav class="level">
-				<div class="level-left" id="button-languajes" style="position:relative;">
-					<div class="level-item remove-margin">
-						<img src="{{subject.image.url}}" alt="" class="image is-64x64 image-subject">
-					</div>
-					<div class="level-item remove-margin">
-						<span class="icon is-medium">
-							<i class="fa fa-sort-down"></i>
+			<article class="media">
+				<div class="media-left remove-margin" id="button-languajes" style="position:relative;">
+					<p class="remove-margin">
+						<a href="{% url 'courses:subject_detail' subject.slug %}"><img src="{{subject.image.url}}" class="image is-64x64 image-subject icon-desplegable"></a>
+					</p>
+				<div class="droptown remove-margin" style="display: none; background-color: white;">
+					<ul class="padding-icons">
+						{% for languaje in languajes %}
+							<li class="margin">
+							<a href="{%url 'courses:subject_detail' languaje.slug%}">
+								<img src="{{languaje.image.url}}" alt="" class="image is-64x64 image-subject">
+							</a>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+				</div>
+				<span class="icon is-medium" style="padding-top: 1%;">
+						<i class="fa fa-sort-down icon-desplegable"></i>
 						</span>
-					</div>
-					<div class="droptown" style="display: none; background-color: white;">
-							<ul class="padding-lateral">
-								{% for languaje in languajes %}
-									<li class="margin">
-									<a href="{%url 'courses:subject_detail' languaje.slug%}">
-										<img src="{{languaje.image.url}}" alt="" class="image is-64x64 image-subject">
-									</a>
-									</li>
-								{% endfor %}
-							</ul>
-						</div>
-				</div>
+				
 			{% if course_selected %}
-				<div class="level-right" style="padding-right: 15%; padding-left: 15%">
-					<div class="level-item remove-margin">
-						<div class="tabs is-medium is-boxed">
-							<ul>
-								<a href="{%url 'user_detail' course_selected.owner.username%}"><li>Instructor: {{course_selected.owner}}</li></a>
-							</ul>
+					
+				<div class="media-content">
+					<div class="content columns" style="text-align:center; padding-top: 2%;">
+						<div class="column is-8">
+							<h1 class="title" style="padding-right:64px;">{{course_selected.title}}</h1>	
 						</div>
-					</div>
-					<div class="level-item" style="padding-right: 50%;">
-						&nbsp;
+						<span class="column is-3" style="text-align:justify; padding-top: 2%;">
+					<a href="{%url 'user_detail' course_selected.owner.username%}"><p class="subtitle">Instructor: {{course_selected.owner}}</p></a></span>
 					</div>
 				</div>
-			</nav>
+				<hr>
+			</article>
 
-			<div class="container padding-lateral" style="position:relative;">
+			<div class="container padding-lateral" style="position:relative; padding-bottom:5%; padding-top: 1em;">
 				{% for module in modules %}
 
 					<div class="box open_items" id="{{module.order}}">
@@ -206,31 +227,50 @@
 							<div class="media-left column is-4">
 								<div class="content">
 									<h3 class="title">{{module.title}}</h3>
-									<p>{{module.description}} cursos</p>
 								</div>
 							</div>
 							<div class="media-content column is-7">
-								<div style="padding-top:5%;" class="column is-10">
-									<progress style="position:relative" class="progress is-info" value="15" max="100"><span style="position:absolute;">15%</span></progress>
-								</div>			
+								<div style="padding-top:1%;" class="column is-10">
+									<progress style="position:relative" class="progress is-success" value="80" max="100"><span style="position:absolute;">80%</span></progress>
+								</div>
 							</div>
 						</article>
-
+						<article class="media border-bye">
+							<div class="media-content column is-12">
+								<p class="subtitle is-5">{{module.description}}</p>
+							</div>
+						</article>
 						<article class="media top-mitad" id="{{module.order}}_droptown" style="display:none">
 							<div class="media-content">
+								{% if module.contents.all.count != 0 %}
+									
 								{% for content in module.contents.all %}
 									<a href="#">
 										<img src="/media/images/icons/{{content.content_type}}.svg" alt="" class="padding-lateral-icons">
 									</a>
 								{% endfor %}
+								
+								{% else %}
+									<p>No hay contenido en este módulo :(</p>
+								{% endif %}
 							</div>
 						</article>
 					</div>
 				{% endfor %}
 			</div>
 			{% else %}
-				<div class="container" style="position:absolute; top:50%; left:45%; text-align:center;">
-					<h1 class="title">Selecciona un curso de la izquierda!</h1>
+				<div class="media-content">
+					<div class="content" style="text-align: center; padding-top: 2%;">
+						<h1 class="title" style="padding-right:64px;">{{subject.title}}</h1>
+					</div>
+				</div>
+				<hr>
+			</article>
+				<div class="container" style="position:absolute; text-align:justify; padding-top: 1em;">
+					<div class="video" style="text-align:center;">
+						{% video subject.video 'small' %}
+					</div>
+					<h1 class="title is-5 top-mitad padding-lateral">{{subject.description}}</h1>
 				</div>
 			{% endif %}
 		</div>
@@ -241,8 +281,9 @@
 {% endblock content %}
 {% block domready %}
 		
-		$('#button-languajes').on('click', function(){
-			$('.droptown').slideToggle('fast');
+		$('.icon-desplegable').on('click', function(){
+			console.log("Hola");
+			$('.droptown').slideToggle();
 		});
 
 		$('.open_items').on('click',function(){
